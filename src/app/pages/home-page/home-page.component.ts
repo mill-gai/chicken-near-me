@@ -9,9 +9,11 @@ import { GoogleMap } from '@angular/google-maps';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent implements OnInit{
-  center: google.maps.LatLngLiteral = {lat: 2, lng: 2};
-  zoom = 10;
-  mapId = "";
+  options: google.maps.MapOptions = {
+    center: {lat: 40, lng: 10},
+    zoom: 2,
+    mapId: ""
+  }
   ngOnInit(): void {
   }
 }
