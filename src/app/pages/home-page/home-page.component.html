@@ -1,4 +1,4 @@
-<head>
+<!-- <head>
     <meta charset="utf-8">
     <title>ChickPicFrontend</title>
     <base href="/">
@@ -7,6 +7,16 @@
   </head>
   <body>
     <p>HI</p>
-    <google-map [center]="center" [zoom]="zoom" [mapId]="mapId" height="400px" width="750px">
+    <google-map [options]="options" height="400px" width="100%">
     </google-map>
-  </body>
+  </body> -->
+<div class="relative isolate top-40 mx-20">
+    <div class="absolute text-center inset-x-0 top-0">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Chick Pic</h1>
+        <p class="mt-6 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis. Quisque ornare ipsum eget dolor porttitor, quis cursus ipsum tincidunt.</p>
+        <div class="flex justify-center items-center my-2">
+            <google-map [options]="options">
+            </google-map>
+        </div>
+    </div>
+</div>
