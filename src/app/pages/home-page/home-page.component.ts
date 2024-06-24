@@ -19,7 +19,6 @@ export class HomePageComponent implements OnInit{
   }
 
   addImageHandler() {
-    this.openForm = true;
-    console.log("open form");
+    this.openForm = !this.openForm;
   }
 }
