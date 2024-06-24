@@ -28,6 +28,9 @@
 @if(openForm){
   <div class="overlay-container">
     <div class="absolute mx-[10%] my-[8%] inset-x-0 p-4 inset-y-0 animate-fadeInUp bg-white rounded-lg text-center">
+      <button class="absolute right-2 top-2 hover:scale-90 focus:opacity-25" (click)="addImageHandler()">
+        <fa-icon [icon]="faCircleXmark" size="2x" style="color: rgb(62, 62, 62);"></fa-icon>
+      </button>
       <h2 class="text-base font-semibold leading-7 text-gray-900">Upload Chicken Image</h2>
       <p class="mt-1 text-sm leading-6 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis.</p>
 
@@ -39,7 +42,8 @@
       </div>
       <button class="btn-primary" (click)="addImageHandler()"> Cancel </button>
       <button class="btn-primary" (click)="addImageHandler()"> Submit </button>
-    </div>
+      
+      </div>
   </div>
       
 <!--       
