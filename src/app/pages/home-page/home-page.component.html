@@ -17,14 +17,42 @@
       <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Chick Pic</h1>
       <p class="mt-6 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis. Quisque ornare ipsum eget dolor porttitor, quis cursus ipsum tincidunt.</p>
   </div>
-  <button class="btn-primary"> Add Image </button>
-  <div class="relative top-4 h-60 w-[90%]" style="background-color: aquamarine;">
-    <div class="absolute top-0 inset-x-0" style="background-color:coral; margin: auto; padding: 20;">
+  <button class="btn-primary" (click)="addImageHandler()"> Add Image </button>
+  <div class="relative top-4 h-60 w-[90%]">
+    <div class="absolute top-0 inset-x-0">
       <google-map [options]="options" width="100%">
       </google-map>
     </div>
   </div>
 </div>
+<!-- @if(openForm){ -->
+  <div class="overlay-container">
+    <div class="absolute mx-[10%] my-[8%] inset-x-0 p-4 inset-y-0 animate-fadeInUp bg-white rounded-lg text-center">
+      <h2 class="text-base font-semibold leading-7 text-gray-900">Upload Chicken Image</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis.</p>
+
+      <div class="grid grid-cols-1 gap-4 m-8">
+        <div class="place-self-start col-span-1">Image Name</div>
+        <input type="text" id="fname" name="fname" class="space-x-1 border-2 col-span-4 mr-[2%]">
+        <div class="place-self-start col-span-1">Image Description</div>
+        <textarea class="space-x-1 border-2 col-span-4 mr-[2%]"></textarea>
+      </div>
+    </div>
+  </div>
+      
+<!--       
+      <form action="/action_page.php" method="get" id="nameform">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname" class="space-x-1 border-2"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname" class="border-2">
+      </form> -->
+      
+    <!-- <div class="relative left-[50%] top-[50%] bg-indigo-500"> -->
+      <!-- <form class=" p-10 bg-white opacity-100">Hello</form> -->
+    <!-- </div> -->
+  <!-- </div> -->
+<!-- } -->
   
 <!-- <div class="relative isolate mt-[10%] mx-[10%] bg-indigo-500">
     <div class="absolute text-center inset-x-0 top-0">

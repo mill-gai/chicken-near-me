@@ -9,11 +9,17 @@ import { GoogleMap } from '@angular/google-maps';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent implements OnInit{
+  openForm: boolean = false;
   options: google.maps.MapOptions = {
     center: {lat: 40, lng: 10},
     zoom: 2,
     mapId: ""
   }
   ngOnInit(): void {
+  }
+
+  addImageHandler() {
+    this.openForm = true;
+    console.log("open form");
   }
 }
