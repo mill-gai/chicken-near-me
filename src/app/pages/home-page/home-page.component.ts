@@ -6,6 +6,7 @@ import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { ImageUploaderComponent } from '../../components/image-uploader/image-uploader.component'
 import { FormBuilder ,FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DropdownMenuComponent } from '../../components/dropdown-menu/dropdown-menu.component';
+import { locations } from '../../constants/locations';
 
 @Component({
   selector: 'app-home-page',
@@ -20,6 +21,7 @@ export class HomePageComponent implements OnInit{
   faCircleXmark = faCircleXmark;
   faImage = faImage;
   imageUrl: string | ArrayBuffer | null = null;
+  locations = locations;
 
   options: google.maps.MapOptions = {
     center: {lat: 40, lng: 10},

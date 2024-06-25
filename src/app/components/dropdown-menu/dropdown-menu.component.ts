@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Output, EventEmitter } from '@angular/core';
-
-const locations = [
-  {id: 1, country: 'Canada', city: 'Montreal'},
-  {id: 2, country: 'Canada', city: 'Toronto'},
-  {id: 3, country: 'Canada', city: 'Vancouver'},
-];
-
+import { Input, Output, EventEmitter } from '@angular/core';
+import { Items } from '../../model/dropdown-item';
 
 @Component({
   selector: 'app-dropdown-menu',
@@ -17,8 +11,9 @@ const locations = [
   styleUrl: './dropdown-menu.component.css'
 })
 export class DropdownMenuComponent {
-  locations = locations;
+  // locations = locations;
   selectedOption = '';
+  @Input() options: Items[] = [];
   @Output() selectEvent = new EventEmitter<string>();
 
   onSelectOption():void {
