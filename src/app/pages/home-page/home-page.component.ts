@@ -5,11 +5,12 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { ImageUploaderComponent } from '../../components/image-uploader/image-uploader.component'
 import { FormBuilder ,FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DropdownMenuComponent } from '../../components/dropdown-menu/dropdown-menu.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [GoogleMap, FontAwesomeModule, ImageUploaderComponent, ReactiveFormsModule],
+  imports: [GoogleMap, FontAwesomeModule, ImageUploaderComponent, ReactiveFormsModule, DropdownMenuComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
@@ -32,6 +33,7 @@ export class HomePageComponent implements OnInit{
     this.addImageForm = this.fb.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
+      location: ['', [Validators.required]],
       image: [undefined, [Validators.required]]
     })
   }
@@ -59,7 +61,13 @@ export class HomePageComponent implements OnInit{
     console.log("name: " + this.addImageForm.get('name')?.value);
     console.log("description: " + this.addImageForm.get('description')?.value);
     console.log("image: " + this.addImageForm.get('image')?.value);
+    console.log("location: " + this.addImageForm.get('location')?.value);
     var fileReader= new FileReader();
     // fileReader.readAsDataURL()
+  }
+
+  onSelectLocation(selectedLocation: string): void {
+    console.log("selected: " + selectedLocation);
+    this.addImageForm.patchValue({location: selectedLocation});
   }
 }

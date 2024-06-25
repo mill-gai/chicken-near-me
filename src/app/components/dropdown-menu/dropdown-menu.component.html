@@ -1,0 +1,7 @@
+<div>
+    <select class="border-2" [(ngModel)]="selectedOption" (change)="onSelectOption()">
+        @for (location of locations; track location.id) {
+          <option>{{ location.city + ", " + location.country }}</option>
+        }
+    </select>
+</div>

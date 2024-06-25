@@ -34,6 +34,11 @@
               class="space-x-1 border-2 mr-[2%]"
               formControlName="description">
             </textarea>
+            <div class="inline-flex gap-4 flex-wrap">
+              <div class="place-self-start">Location</div>
+              <app-dropdown-menu (selectEvent)="onSelectLocation($event)"></app-dropdown-menu>
+            </div>
+           
             <div class="flex flex-col justify-center items-center">
               @if(imageUrl)
               {
