@@ -7,11 +7,17 @@ import { ImageUploaderComponent } from '../../components/image-uploader/image-up
 import { FormBuilder ,FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DropdownMenuComponent } from '../../components/dropdown-menu/dropdown-menu.component';
 import { locations } from '../../constants/locations';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [GoogleMap, FontAwesomeModule, ImageUploaderComponent, ReactiveFormsModule, DropdownMenuComponent],
+  imports: [GoogleMap, 
+            FontAwesomeModule, 
+            ImageUploaderComponent, 
+            ReactiveFormsModule, 
+            DropdownMenuComponent,
+            HeaderComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
