@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { AnimationProp, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { ImageUploaderComponent } from '../../components/image-uploader/image-uploader.component'
 import { FormBuilder ,FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -16,7 +17,8 @@ export class HomePageComponent implements OnInit{
   openForm: boolean = false;
   addImageForm: FormGroup;
   faCircleXmark = faCircleXmark;
-  animation:AnimationProp | undefined = undefined;
+  faImage = faImage;
+  imageUrl: string | ArrayBuffer | null = null;
 
   options: google.maps.MapOptions = {
     center: {lat: 40, lng: 10},
@@ -36,16 +38,28 @@ export class HomePageComponent implements OnInit{
 
   addImageHandler() {
     this.openForm = !this.openForm;
-    this.animation = undefined;
+    console.log("yay");
   }
 
-  playIconAnimation() {
-    this.animation = "beat-fade";
-    this.openForm = !this.openForm;
+  // private getFileUrl(file: File):
+
+  onUploadImage(event: Event):void {
+    const input = event.target as HTMLInputElement;
+    if(input.files) {
+      console.log(input.files);
+      var fileReader= new FileReader();
+      fileReader.readAsDataURL(input.files[0]);
+      fileReader.onload = () => {
+        this.imageUrl = fileReader.result;
+      }
+    }
   }
+
   onSubmit(): void {
     console.log("name: " + this.addImageForm.get('name')?.value);
     console.log("description: " + this.addImageForm.get('description')?.value);
     console.log("image: " + this.addImageForm.get('image')?.value);
+    var fileReader= new FileReader();
+    // fileReader.readAsDataURL()
   }
 }
