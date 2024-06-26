@@ -23,20 +23,26 @@
         <p class="mt-1 text-sm leading-6 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis.</p>
         <form [formGroup]="addImageForm" (ngSubmit)="onSubmit()">
           <div class="grid grid-cols-1 gap-4 m-8">
-            <div class="place-self-start">Image Name</div>
+            <div class="place-self-start">Image Name*</div>
             <input 
               type="text"
               id="fname"
-              name="fname"
-              class="space-x-1 border-2 mr-[2%]"
-              formControlName="name">
+              name="name"
+              class="input-primary {{ name.invalid && isSubmitForm? 'border-red-500': 'border-black' }}"
+              formControlName="name"
+              required>
+            <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
+              <div *ngIf="name?.errors?.['required']">
+                Name is required.
+              </div>
+            </div> -->
             <div class="place-self-start">Image Description</div>
             <textarea
-              class="space-x-1 border-2 mr-[2%]"
+              class="input-primary {{ description.invalid && isSubmitForm? 'border-red-500': 'border-black' }}"
               formControlName="description">
             </textarea>
             <div class="inline-flex gap-4 flex-wrap">
-              <div class="place-self-start">Location</div>
+              <div class="place-self-start">Location*</div>
               <app-dropdown-menu [options]="locations" (selectEvent)="onSelectLocation($event)"></app-dropdown-menu>
             </div>
            
