@@ -8,6 +8,7 @@ import { FormBuilder ,FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DropdownMenuComponent } from '../../components/dropdown-menu/dropdown-menu.component';
 import { locations } from '../../constants/locations';
 import { HeaderComponent } from '../../components/header/header.component';
+import { S3Service } from '../../services/s3/s3.service'
 
 @Component({
   selector: 'app-home-page',
@@ -26,6 +27,7 @@ export class HomePageComponent implements OnInit{
   addImageForm: FormGroup;
   faCircleXmark = faCircleXmark;
   faImage = faImage;
+  fileObj:File;
   imageUrl: string | ArrayBuffer | null = null;
   locations = locations;
 
@@ -37,7 +39,7 @@ export class HomePageComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private s3Service: S3Service){
     this.addImageForm = this.fb.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -58,7 +60,9 @@ export class HomePageComponent implements OnInit{
     if(input.files) {
       console.log(input.files);
       var fileReader= new FileReader();
-      fileReader.readAsDataURL(input.files[0]);
+      this.fileObj = input.files[0];
+      console.log(this.fileObj);
+      fileReader.readAsDataURL(this.fileObj);
       fileReader.onload = () => {
         this.imageUrl = fileReader.result;
       }
@@ -70,7 +74,10 @@ export class HomePageComponent implements OnInit{
     console.log("description: " + this.addImageForm.get('description')?.value);
     console.log("image: " + this.addImageForm.get('image')?.value);
     console.log("location: " + this.addImageForm.get('location')?.value);
-    var fileReader= new FileReader();
+    const fileForm = new FormData();
+    fileForm.append('file', this.fileObj);
+    this.s3Service.uploadImage(this.fileObj);
+
     // fileReader.readAsDataURL()
   }
 
