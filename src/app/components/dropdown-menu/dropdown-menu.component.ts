@@ -14,6 +14,7 @@ export class DropdownMenuComponent {
   // locations = locations;
   selectedOption = '';
   @Input() options: Items[] = [];
+  @Input() isInvalid: boolean;
   @Output() selectEvent = new EventEmitter<string>();
 
   onSelectOption():void {
