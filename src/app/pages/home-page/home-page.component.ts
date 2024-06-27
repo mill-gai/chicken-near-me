@@ -1,6 +1,5 @@
-import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap } from '@angular/google-maps';
-import { AnimationProp, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { ImageUploaderComponent } from '../../components/image-uploader/image-uploader.component'
@@ -11,18 +10,21 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { S3Service } from '../../services/s3/s3.service'
 import { NgIf } from '@angular/common';
 import { NotificationComponent } from '../../components/notification/notification.component';
+import { MapComponent } from '../../components/map/map.component';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [GoogleMap, 
-            FontAwesomeModule, 
+  imports: [FontAwesomeModule, 
             ImageUploaderComponent, 
             ReactiveFormsModule, 
             DropdownMenuComponent,
             HeaderComponent,
             NgIf,
-            NotificationComponent
+            NotificationComponent,
+            MapComponent,
+            GoogleMap
           ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -37,6 +39,7 @@ export class HomePageComponent implements OnInit{
   fileObj:File;
   imageUrl: string | ArrayBuffer | null = null;
   locations = locations;
+  imageUrl1: string | null = null;
   @ViewChild(NotificationComponent)
   notiComponent: NotificationComponent;
 
@@ -55,6 +58,13 @@ export class HomePageComponent implements OnInit{
       location: ['', [Validators.required]],
       image: [undefined, [Validators.required]]
     })
+  }
+
+  handleImageError(): void {
+    this.s3Service.getSignedUrl('grass.png').then((data)=>{
+      this.imageUrl1 = data;
+      console.log("image url: " + this.imageUrl1);
+    });
   }
 
   addImageHandler() {

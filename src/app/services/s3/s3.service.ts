@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, GetObjectAclCommand, GetObjectCommand } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const S3_MEDIA_BUCKET = {
   BUCKET: '',
@@ -32,5 +33,16 @@ export class S3Service {
     }
    
     this.s3.send(new PutObjectCommand(params));
+  }
+
+  async getSignedUrl(key: string){
+    const params = {
+      Bucket: S3_MEDIA_BUCKET.BUCKET,
+      Key: key
+    };
+    const command = new GetObjectCommand(params);
+    const expiration = 10;
+    const url = await getSignedUrl(this.s3, command, {expiresIn: expiration});
+    return url;
   }
 }
