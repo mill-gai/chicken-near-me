@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { AnimationProp, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
@@ -10,6 +10,7 @@ import { locations } from '../../constants/locations';
 import { HeaderComponent } from '../../components/header/header.component';
 import { S3Service } from '../../services/s3/s3.service'
 import { NgIf } from '@angular/common';
+import { NotificationComponent } from '../../components/notification/notification.component';
 
 @Component({
   selector: 'app-home-page',
@@ -20,7 +21,8 @@ import { NgIf } from '@angular/common';
             ReactiveFormsModule, 
             DropdownMenuComponent,
             HeaderComponent,
-            NgIf
+            NgIf,
+            NotificationComponent
           ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
@@ -28,12 +30,15 @@ import { NgIf } from '@angular/common';
 export class HomePageComponent implements OnInit{
   openForm: boolean = false;
   isSubmitForm: boolean = false;
+  message: string;
   addImageForm: FormGroup;
   faCircleXmark = faCircleXmark;
   faImage = faImage;
   fileObj:File;
   imageUrl: string | ArrayBuffer | null = null;
   locations = locations;
+  @ViewChild(NotificationComponent)
+  notiComponent: NotificationComponent;
 
   options: google.maps.MapOptions = {
     center: {lat: 40, lng: 10},
@@ -83,8 +88,11 @@ export class HomePageComponent implements OnInit{
     console.log( "name valid: " + this.addImageForm.get('name').valid);
     if(this.addImageForm.valid) {
       console.log("form is valid");
+      this.notiComponent.playAnimation("valid input");
     } else {
       console.log("form is not valid");
+      this.message = "invalid input";
+      this.notiComponent.playAnimation("invalid input");
     }
     // const fileForm = new FormData();
     // fileForm.append('file', this.fileObj);
@@ -100,6 +108,6 @@ export class HomePageComponent implements OnInit{
 
   get name() { return this.addImageForm.get('name'); }
   get description() { return this.addImageForm.get('description'); }
-
+  get location() { return this.addImageForm.get('location') };
 
 }
