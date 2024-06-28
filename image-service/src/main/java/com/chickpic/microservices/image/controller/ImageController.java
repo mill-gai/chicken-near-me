@@ -20,13 +20,12 @@ public class ImageController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 //    public void uploadImage(@RequestBody ImageRequest imageRequest, @RequestPart(value = "file") MultipartFile file) {
-    public void uploadImage(@RequestParam(value = "file") MultipartFile file) {
+    public String uploadImage(@RequestParam(value = "file") MultipartFile file) {
         try {
             byte[] bytes = file.getBytes();
             String filename = file.getOriginalFilename();
 //            imageService.uploadImage(imageRequest, bytes, filename);
-            imageService.uploadImage(bytes, filename);
-
+            return imageService.uploadImage(bytes, filename);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

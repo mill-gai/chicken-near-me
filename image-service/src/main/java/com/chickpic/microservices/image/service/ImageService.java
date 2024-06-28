@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
+
 import java.util.Date;
 
 @Service
@@ -19,12 +21,19 @@ public class ImageService {
 
 
 //    public void uploadImage(ImageRequest imageRequest, byte[] bytes, String fileName) {
-    public void uploadImage(byte[] bytes, String fileName) {
-        PutObjectRequest putOb = PutObjectRequest.builder()
-                        .bucket(bucketName)
-                        .key(generateFileName(fileName))
-                        .build();
-        s3Client.putObject(putOb, RequestBody.fromBytes(bytes));
+    public String uploadImage(byte[] bytes, String fileName) {
+        fileName = generateFileName(fileName);
+        try {
+            PutObjectRequest putOb = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .build();
+            s3Client.putObject(putOb, RequestBody.fromBytes(bytes));
+            return fileName;
+        } catch (S3Exception e) {
+            System.err.println(e.awsErrorDetails().errorMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     private String generateFileName(String fileName) {
