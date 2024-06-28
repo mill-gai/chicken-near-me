@@ -1,0 +1,165 @@
+<app-header></app-header>
+<!-- <div>
+  <img [src]="imageUrl1" (error)="handleImageError()" alt="Image from S3">
+</div> -->
+<div class="flex flex-col justify-center items-center text-center">
+  <div class="mt-[5%] mx-[10%]">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Chick Pic</h1>
+      <p class="mt-6 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis. Quisque ornare ipsum eget dolor porttitor, quis cursus ipsum tincidunt.</p>
+  </div>
+  <button class="btn-primary" (click)="addImageHandler()"> Add Image </button>
+ 
+  <div class="relative top-4 h-60 w-[90%]">
+    <div class="absolute top-0 inset-x-0">
+      <app-map></app-map>
+    </div>
+  </div>
+</div>
+
+<app-notification></app-notification>
+
+@if(openForm){
+  <div class="overlay-container">
+    <div class="absolute mx-[10%] my-[8%] inset-x-0 p-4 inset-y-0 animate-fadeInUp bg-white rounded-lg text-center">
+      <button class="absolute right-[4%] top-4 hover:scale-90 focus:opacity-25" (click)="addImageHandler()">
+        <fa-icon [icon]="faCircleXmark" size="2x" style="color: rgb(62, 62, 62);"></fa-icon>
+      </button>
+      <div class="overflow-y-scroll h-[100%]">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Upload Chicken Image</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis.</p>
+        <form [formGroup]="addImageForm" (ngSubmit)="onSubmit()">
+          <div class="grid grid-cols-1 gap-4 m-8">
+            <div class="place-self-start">Image Name*</div>
+            <input 
+              type="text"
+              id="fname"
+              name="name"
+              class="input-primary {{ name.invalid && isSubmitForm? 'border-red-500': 'border-black' }}"
+              formControlName="name"
+              required>
+            <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
+              <div *ngIf="name?.errors?.['required']">
+                Name is required.
+              </div>
+            </div> -->
+            <div class="place-self-start">Image Description</div>
+            <textarea
+              class="input-primary {{ description.invalid && isSubmitForm? 'border-red-500': 'border-black' }}"
+              formControlName="description">
+            </textarea>
+            <div class="inline-flex gap-4 flex-wrap">
+              <div class="place-self-start">Location*</div>
+              <app-dropdown-menu [options]="locations" [isInvalid]="location.invalid && isSubmitForm" (selectEvent)="onSelectLocation($event)"></app-dropdown-menu>
+            </div>
+           
+            <div class="flex flex-col justify-center items-center">
+              @if(imageUrl)
+              {
+                <div class="mt-2 h-80 w-80 justify-center rounded-lg">
+                  <img class="w-[100%]" src={{imageUrl}}>
+                </div>
+              } @else {
+                <div class="mt-2 h-80 w-80 justify-center rounded-lg border border-dashed border-black">
+                  <div class="text-center py-[40%] center">
+                    <fa-icon [icon]="faImage" size="4x"></fa-icon>
+                  </div>
+                </div>
+              }
+              <!-- <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label> -->
+              <!-- <div class="mt-2  w-300 justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-gradient-to-r from-cyan-500 to-blue-500"> -->
+              <!-- <div class="mt-2 h-80 w-80 justify-center rounded-lg border border-dashed border-gray-900/25">
+                <img class="w-[100%]" src={{imageUrl}}> -->
+                <!-- <div class="text-center">
+                  <fa-icon [icon]="faImage" size="2x"></fa-icon>
+                  <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                      <span>Upload a file</span>
+                      <input 
+                          id="file-upload"
+                          name="file-upload"
+                          type="file" accept="image/*"
+                          class="sr-only"
+                          formControlName ="image"
+                          (change)="onUploadImage($event)">
+                    </label>
+                    <p class="pl-1">or drag and drop</p>
+                  </div>
+                  <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                </div> -->
+              <!-- </div> -->
+                <div class="text-center">
+                  <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-yellow-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-yellow-500 focus-within:ring-offset-2 hover:text-yellow-400">
+                      <span>Upload a file</span>
+                      <input 
+                          id="file-upload"
+                          name="file-upload"
+                          type="file" accept="image/*"
+                          class="sr-only"
+                          formControlName ="image"
+                          (change)="onUploadImage($event)">
+                    </label>
+                    <!-- <p class="pl-1">or drag and drop</p> -->
+                  </div>
+                  <!-- <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p> -->
+                </div>
+            </div>
+            <button class="btn-primary mx-[20%]"> Submit </button>
+          </div>
+        </form>
+        <!-- <div class="grid grid-cols-1 gap-4 m-8">
+          <div class="place-self-start">Image Name</div>
+          <input type="text" id="fname" name="fname" class="space-x-1 border-2 mr-[2%]">
+          <div class="place-self-start">Image Description</div>
+          <textarea class="space-x-1 border-2 mr-[2%]"></textarea>
+        </div>
+        <app-image-uploader></app-image-uploader> -->
+        <!-- <button class="btn-primary" (click)="addImageHandler()"> Submit </button> -->
+      </div>
+    </div> 
+  </div>
+      
+<!--       
+      <form action="/action_page.php" method="get" id="nameform">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname" class="space-x-1 border-2"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname" class="border-2">
+      </form> -->
+      
+    <!-- <div class="relative left-[50%] top-[50%] bg-indigo-500"> -->
+      <!-- <form class=" p-10 bg-white opacity-100">Hello</form> -->
+    <!-- </div> -->
+  <!-- </div> -->
+}
+  
+<!-- <div class="relative isolate mt-[10%] mx-[10%] bg-indigo-500">
+    <div class="absolute text-center inset-x-0 top-0">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Chick Pic</h1>
+        <p class="mt-6 text-lg leading-8 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus tortor, ac luctus felis. Quisque ornare ipsum eget dolor porttitor, quis cursus ipsum tincidunt.</p>
+        <div class="flex justify-center items-center h-40" style="background-color: aqua;">
+            <div class="" style="background-color: blueviolet;">
+              Arba
+              <google-map [options]="options">
+              </google-map>
+            </div>
+        </div> 
+    </div>
+    <div class="relative">
+      <google-map [options]="options">
+      </google-map>
+    </div>
+</div> -->
+
+
+<!-- <div class="flex justify-center" style="background-color: aqua;">
+  <div style="background-color: azure;">
+    <h1 class="text-4xl font-bold tracking-wide text-gray-900 sm:text-6xl">Chick Pic</h1>
+  </div>
+</div> -->
+
+<!-- <div style="display: flex; background-color: aqua;justify-content: center;height: 400px ;">
+  <div style="background-color: antiquewhite;width: 200px;min-height: 100px;">flexbot item1</div> -->
+  <!-- <div style="background-color: antiquewhite;width: 200px;min-height: 100px;">flexbot item2</div>
+  <div style="background-color: antiquewhite;width: 200px;min-height: 100px;">flexbot item3</div> -->
+<!-- </div> -->
