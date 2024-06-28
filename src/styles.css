@@ -20,8 +20,7 @@
     }
 
     .image-container {
-        @layer flex-container;
-        @apply m-4 border-2 p-3 pb-4 border-black bg-yellow-200
+        @apply flex-container m-4 border-2 p-3 pb-4 border-black bg-yellow-200
     }
     .image-border {
         @apply flex-none justify-center mx-auto border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0)]
