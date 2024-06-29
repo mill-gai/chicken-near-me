@@ -7,11 +7,19 @@ import com.chickpic.microservices.image.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
+import java.net.URL;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
@@ -21,13 +29,14 @@ public class ImageService {
     @Value("${amazon.s3.bucket-name}")
     private String bucketName;
     private final S3Client s3Client;
+    private final S3Presigner s3Presigner;
     private final ImageRepository imageRepository;
 
 //    public void uploadImage(ImageRequest imageRequest, byte[] bytes, String fileName) {
     public String uploadImage(ImageRequest imageRequest, byte[] bytes, String fileName) {
         fileName = generateFileName(fileName);
         try {
-            PutObjectRequest putOb = PutObjectRequest.builder()
+            PutObjectRequest putObj = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(fileName)
                     .build();
@@ -39,7 +48,7 @@ public class ImageService {
                     .fileName(fileName)
                     .build();
 
-            s3Client.putObject(putOb, RequestBody.fromBytes(bytes));
+            s3Client.putObject(putObj, RequestBody.fromBytes(bytes));
             imageRepository.save(image);
             return "Image uploaded successfully";
         } catch (S3Exception e) {
@@ -60,8 +69,25 @@ public class ImageService {
                 .toList();
     }
 
-    public String createPresignedUrl(String bucketName, String keyName) {
-        return "";
+    public String createPresignedUrl(String keyName) {
+        try {
+            GetObjectRequest getObj = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(keyName)
+                    .build();
+            GetObjectPresignRequest presignReq = GetObjectPresignRequest.builder()
+                    .signatureDuration(Duration.ofMinutes(5))
+                    .getObjectRequest(getObj)
+                    .build();
+            PresignedGetObjectRequest presignedReq = s3Presigner.presignGetObject(presignReq);
+            System.out.println("url to string: " + presignedReq.url().toString());
+            System.out.println("url to external form: " + presignedReq.url().toExternalForm());
+
+            return presignedReq.url().toString();
+        } catch (S3Exception e) {
+            throw new RuntimeException("Failed to get presigned url", e);
+        }
+
     }
 
     private String generateFileName(String fileName) {
