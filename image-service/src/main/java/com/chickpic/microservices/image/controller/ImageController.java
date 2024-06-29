@@ -37,13 +37,13 @@ public class ImageController {
 
     @GetMapping("/getAllImages")
     @ResponseStatus(HttpStatus.OK)
-    public List<ImageResponse> getAllImagesInfo() {
+    public List<ImageResponse> getAllImages() {
         return imageService.getAllImages();
     }
 
     @GetMapping("/getImageUrls")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getImageUrls(@RequestBody List<String> fileNames) {
+    public List<String> getImageUrls(@RequestParam List<String> fileNames) {
         return fileNames.stream().map(imageService::createPresignedUrl).toList();
     }
 
