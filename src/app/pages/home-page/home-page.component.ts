@@ -14,6 +14,7 @@ import { MapComponent } from '../../components/map/map.component';
 import { GoogleMap } from '@angular/google-maps';
 import { ImageService } from '../../services/image/image.service';
 import { ImageInfo } from '../../model/image'
+import { Items, LocationItems } from '../../model/dropdown-item';
 
 @Component({
   selector: 'app-home-page',
@@ -57,7 +58,8 @@ export class HomePageComponent implements OnInit{
     this.addImageForm = this.fb.group({
       name: ['', [Validators.required]],
       description: [''],
-      location: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      city: ['', [Validators.required]],
       image: [undefined, [Validators.required]]
     })
   }
@@ -93,24 +95,25 @@ export class HomePageComponent implements OnInit{
 
   onSubmit(): void {
     this.isSubmitForm = true;
-    console.log("name: " + this.addImageForm.get('name')?.value);
-    console.log("description: " + this.addImageForm.get('description')?.value);
-    console.log("image: " + this.addImageForm.get('image')?.value);
-    console.log("location: " + this.addImageForm.get('location')?.value);
-    console.log( "name valid: " + this.addImageForm.get('name').valid);
+    // console.log("name: " + this.addImageForm.get('name')?.value);
+    // console.log("description: " + this.addImageForm.get('description')?.value);
+    // console.log("image: " + this.addImageForm.get('image')?.value);
+    // console.log("city: " + this.addImageForm.get('city')?.value);
+    // console.log("country: " + this.addImageForm.get('country')?.value);
+    // console.log( "name valid: " + this.addImageForm.get('name').valid);
     const image: ImageInfo = {
       title : this.addImageForm.get('name')?.value,
       description : this.addImageForm.get('description')?.value,
-      country: "test city3",
-      city: "test city3"
+      country: this.addImageForm.get('country')?.value,
+      city: this.addImageForm.get('city')?.value
     }
     
     if(this.addImageForm.valid) {
-      console.log("form is valid");
+      // console.log("form is valid");
       this.imageService.uploadImage(image, this.fileObj).subscribe(respond => { console.log(respond); this.notiComponent.playAnimation("success");});
       this.notiComponent.playAnimation("valid input");
     } else {
-      console.log("form is not valid");
+      // console.log("form is not valid");
       this.message = "invalid input";
       this.notiComponent.playAnimation("invalid input");
     }
@@ -121,13 +124,15 @@ export class HomePageComponent implements OnInit{
     // fileReader.readAsDataURL()
   }
 
-  onSelectLocation(selectedLocation: string): void {
-    console.log("selected: " + selectedLocation);
-    this.addImageForm.patchValue({location: selectedLocation});
+  onSelectLocation(selectedLocation: Items): void {
+    const location = selectedLocation as LocationItems;
+    this.addImageForm.patchValue({country: location.country});
+    this.addImageForm.patchValue({city: location.city});
   }
 
   get name() { return this.addImageForm.get('name'); }
   get description() { return this.addImageForm.get('description'); }
-  get location() { return this.addImageForm.get('location') };
+  get country() { return this.addImageForm.get('country') };
+  get city() { return this.addImageForm.get('city') };
 
 }
