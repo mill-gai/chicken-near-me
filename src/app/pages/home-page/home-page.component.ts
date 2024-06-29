@@ -107,7 +107,7 @@ export class HomePageComponent implements OnInit{
     
     if(this.addImageForm.valid) {
       console.log("form is valid");
-      this.imageService.uploadImage(image, this.fileObj);
+      this.imageService.uploadImage(image, this.fileObj).subscribe(respond => { console.log(respond); this.notiComponent.playAnimation("success");});
       this.notiComponent.playAnimation("valid input");
     } else {
       console.log("form is not valid");

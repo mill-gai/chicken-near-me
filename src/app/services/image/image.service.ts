@@ -13,14 +13,14 @@ export class ImageService {
   uploadImage(image: ImageInfo, file: File): Observable<string> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data'
+        'Enctype': 'multipart/form-data'
       }),
-      responseType: 'text' as 'json',
-      body: {
-        file: file,
-        imageRequest: image
-      }
+      responseType: 'text' as 'json'
     };
-    return this.httpClient.post<string>('http://localhost:8080/api/image', httpOptions);
+    const formData: FormData = new FormData();
+    formData.append('imageRequest', new Blob([JSON.stringify(image)], { type: 'application/json' }));
+    formData.append('file', file);
+    // const body = { file: file, imageRequest: image};
+    return this.httpClient.post<string>('http://localhost:8080/api/image', formData, httpOptions);
   }
 }
