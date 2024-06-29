@@ -5,6 +5,7 @@ import com.chickpic.microservices.image.dto.ImageResponse;
 import com.chickpic.microservices.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,15 +18,16 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-//    public void uploadImage(@RequestBody ImageRequest imageRequest, @RequestPart(value = "file") MultipartFile file) {
-    public String uploadImage(@RequestParam(value = "file") MultipartFile file) {
+    public String uploadImage(@RequestPart ImageRequest imageRequest, @RequestPart MultipartFile file) {
+//    public String uploadImage(@RequestParam(value = "file") MultipartFile file) {
         try {
+            System.out.println("imageRequest: " + imageRequest);
             byte[] bytes = file.getBytes();
             String filename = file.getOriginalFilename();
 //            imageService.uploadImage(imageRequest, bytes, filename);
-            return imageService.uploadImage(bytes, filename);
+            return imageService.uploadImage(imageRequest, bytes, filename);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
