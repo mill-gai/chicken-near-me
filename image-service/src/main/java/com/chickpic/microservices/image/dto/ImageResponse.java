@@ -1,4 +1,4 @@
 package com.chickpic.microservices.image.dto;
 
-public record ImageResponse(String name, String description, String location, String fileUrl) {
+public record ImageResponse(String title, String description, String country, String city, String fileUrl) {
 }
