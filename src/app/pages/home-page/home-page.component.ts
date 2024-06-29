@@ -12,6 +12,8 @@ import { NgIf } from '@angular/common';
 import { NotificationComponent } from '../../components/notification/notification.component';
 import { MapComponent } from '../../components/map/map.component';
 import { GoogleMap } from '@angular/google-maps';
+import { ImageService } from '../../services/image/image.service';
+import { ImageInfo } from '../../model/image'
 
 @Component({
   selector: 'app-home-page',
@@ -51,7 +53,7 @@ export class HomePageComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  constructor(private fb: FormBuilder, private s3Service: S3Service){
+  constructor(private fb: FormBuilder, private s3Service: S3Service, private imageService: ImageService){
     this.addImageForm = this.fb.group({
       name: ['', [Validators.required]],
       description: [''],
@@ -96,8 +98,16 @@ export class HomePageComponent implements OnInit{
     console.log("image: " + this.addImageForm.get('image')?.value);
     console.log("location: " + this.addImageForm.get('location')?.value);
     console.log( "name valid: " + this.addImageForm.get('name').valid);
+    const image: ImageInfo = {
+      title : this.addImageForm.get('name')?.value,
+      description : this.addImageForm.get('description')?.value,
+      country: "test city3",
+      city: "test city3"
+    }
+    
     if(this.addImageForm.valid) {
       console.log("form is valid");
+      this.imageService.uploadImage(image, this.fileObj);
       this.notiComponent.playAnimation("valid input");
     } else {
       console.log("form is not valid");
