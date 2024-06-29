@@ -23,4 +23,13 @@ export class ImageService {
     // const body = { file: file, imageRequest: image};
     return this.httpClient.post<string>('http://localhost:8080/api/image', formData, httpOptions);
   }
+
+  getAllImages() {
+    return this.httpClient.get<Array<ImageInfo>>('http://localhost:8080/api/image/getAllImages');
+  }
+  
+  getImageUrls(fileNames: string[]) {
+    return this.httpClient.get<Array<string>>('http://localhost:8080/api/image/getImageUrls', {params: {fileNames: fileNames}})
+  }
+
 }
