@@ -65,7 +65,7 @@ public class ImageService {
 //                            .toList();
 
         return images.stream()
-                .map(image -> new ImageResponse(image.getTitle(), image.getDescription(), image.getCountry(), image.getDescription(), image.getFileName()))
+                .map(image -> new ImageResponse(image.getTitle(), image.getDescription(), image.getCountry(), image.getCity(), image.getFileName()))
                 .toList();
     }
 
