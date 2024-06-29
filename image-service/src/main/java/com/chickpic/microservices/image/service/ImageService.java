@@ -13,6 +13,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +47,21 @@ public class ImageService {
 //            throw new RuntimeException(e);
             throw new RuntimeException("Failed to upload image", e);
         }
+    }
+
+    public List<ImageResponse> getAllImages() {
+        List<Image> images = imageRepository.findAll();
+//        List<String> urls = images.stream()
+//                            .map(image -> generateFileName(image.getFileName()))
+//                            .toList();
+
+        return images.stream()
+                .map(image -> new ImageResponse(image.getTitle(), image.getDescription(), image.getCountry(), image.getDescription(), image.getFileName()))
+                .toList();
+    }
+
+    public String createPresignedUrl(String bucketName, String keyName) {
+        return "";
     }
 
     private String generateFileName(String fileName) {
