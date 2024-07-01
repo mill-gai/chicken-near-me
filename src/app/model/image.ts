@@ -11,6 +11,7 @@ export type Image = {
     title: string;
     description: string;
     fileName: string;
+    fileUrl: string;
 };
 
 export type ImageByLocation = {
