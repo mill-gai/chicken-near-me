@@ -1,7 +1,15 @@
 
 <google-map [options]="options" width="100%">
-    <map-advanced-marker [position]="position" (mapClick)="onClickHandler()"></map-advanced-marker>
+    @for (imgCountry of images; track imgCountry) {
+        @for (imgCity of imgCountry.cities; track imgCity) {
+            <app-map-marker [country]="imgCountry.country" [city]="imgCity.city" [images]="imgCity.images"></app-map-marker>
+        }
+    }
+    <!-- <map-advanced-marker [position]="position" (mapClick)="onClickHandler()"></map-advanced-marker> -->
 </google-map>
+
+
+
 @if(showContent){
     <div class="overlay-container">
         <div class="absolute mx-[10%] my-[10%] inset-x-0 p-4 inset-y-0 animate-fadeInUp bg-white rounded-lg text-center">
