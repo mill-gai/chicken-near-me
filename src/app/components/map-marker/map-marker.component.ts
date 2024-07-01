@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Image } from '../../model/image';
 import { Position } from '../../model/position';
 import { ImageService } from '../../services/image/image.service';
+import { coord } from '../../constants/locations';
 
 @Component({
     selector: 'app-map-marker',
@@ -23,7 +24,22 @@ export class MapMarkerComponent implements OnInit {
     showContent: boolean = false;
     faCircleXmark = faCircleXmark;
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        if (this.country in coord && this.city in coord[this.country]) {
+            this.position = coord[this.country][this.city];
+        } else {
+            this.position = { lat: 50, lng: -72 };
+        }
+
+        console.log(
+            'country: ' +
+                this.country +
+                ', city: ' +
+                this.city +
+                ', position: ' +
+                this.position
+        );
+    }
 
     getImageUrl(fileNames: string[]) {
         this.imageService.getImageUrls(fileNames).subscribe((response) => {
