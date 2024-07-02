@@ -30,29 +30,23 @@ export class MapMarkerComponent implements OnInit {
         } else {
             this.position = { lat: 50, lng: -72 };
         }
-
-        console.log(
-            'country: ' +
-                this.country +
-                ', city: ' +
-                this.city +
-                ', position: ' +
-                this.position
-        );
+        const fileNames: string[] = this.images.map((i) => i.fileName);
+        this.getImageUrl(fileNames);
     }
 
     getImageUrl(fileNames: string[]) {
-        this.imageService.getImageUrls(fileNames).subscribe((response) => {
-            this.images.forEach(
-                (value, index) => (value.fileUrl = response[index])
-            );
-        });
+        this.imageService
+            .getImageUrls(fileNames)
+            .pipe()
+            .subscribe((response) => {
+                this.images.forEach(
+                    (value, index) => (value.fileUrl = response[index])
+                );
+            });
+        console.log('imggg: ' + this.images);
     }
 
     onClickHandler() {
-        const fileNames: string[] = this.images.map((i) => i.fileName);
-        this.getImageUrl(fileNames);
-        console.log(this.images);
         this.showContent = !this.showContent;
     }
 }
