@@ -75,28 +75,12 @@ export class HomePageComponent implements OnInit {
         });
     }
 
-    handleImageError(): void {
-        this.s3Service.getSignedUrl('grass.png').then((data) => {
-            this.imageUrl1 = data;
-            console.log('image url: ' + this.imageUrl1);
-        });
-    }
-
     addImageHandler() {
         // this.imageService.getAllImages().subscribe(data => {this.images = data});
-        this.imageService
-            .getImageUrls([
-                '1719689366511image6.jpeg',
-                '1719692142769image9.jpeg',
-                '1719638423385chicken2.jpeg',
-            ])
-            .subscribe((data) => {
-                this.images = data;
-            });
-        console.log(this.images);
         this.openForm = !this.openForm;
         this.isSubmitForm = false;
         this.addImageForm.reset();
+        this.imageUrl = null;
     }
 
     // private getFileUrl(file: File):
@@ -131,8 +115,9 @@ export class HomePageComponent implements OnInit {
                 .subscribe((respond) => {
                     console.log(respond);
                     this.notiComponent.playAnimation('success');
+                    this.addImageHandler();
                 });
-            this.notiComponent.playAnimation('valid input');
+            //this.notiComponent.playAnimation('valid input');
         } else {
             // console.log("form is not valid");
             this.message = 'invalid input';
