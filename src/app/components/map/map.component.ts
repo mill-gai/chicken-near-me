@@ -31,11 +31,14 @@ export class MapComponent implements OnInit {
     images: ImageByLocation[] = [];
 
     ngOnInit(): void {
-        this.imageService.getAllImages().subscribe((response) => {
-            console.log(response);
-            this.images = this.groupImageByLocation(response);
-            console.log(this.images);
-        });
+        this.imageService
+            .getAllImages()
+            .pipe()
+            .subscribe((response) => {
+                console.log(response);
+                this.images = this.groupImageByLocation(response);
+                console.log(this.images);
+            });
     }
 
     groupImageByLocation(imageResponse: Array<ImageInfo>): ImageByLocation[] {
