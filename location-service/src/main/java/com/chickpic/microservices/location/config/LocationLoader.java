@@ -4,6 +4,7 @@ import com.chickpic.microservices.location.model.Location;
 import com.chickpic.microservices.location.repository.LocationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +16,10 @@ import java.io.InputStream;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class LocationLoader implements CommandLineRunner {
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     @Override
     public void run(String... args) throws Exception {
