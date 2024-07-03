@@ -16,7 +16,7 @@ public class LocationService {
     private MongoTemplate mongoTemplate;
 
     private List<Document> generateMongoDocs(List<String> lines) {
-        List<Document> docs = new ArrayList<Document>();
+        List<Document> docs = new ArrayList<>();
         for (String line : lines) {
             docs.add(Document.parse(line));
         }
