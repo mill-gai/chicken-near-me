@@ -1,5 +1,9 @@
 package com.chickpic.microservices.location.service;
 
+import com.chickpic.microservices.location.dto.LocationResponse;
+import com.chickpic.microservices.location.model.Location;
+import com.chickpic.microservices.location.repository.LocationRepository;
+import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,27 +15,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LocationService {
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private final LocationRepository locationRepository;
 
-    private List<Document> generateMongoDocs(List<String> lines) {
-        List<Document> docs = new ArrayList<>();
-        for (String line : lines) {
-            docs.add(Document.parse(line));
-        }
-        return docs;
+    public List<LocationResponse> getAllLocations() {
+        List<Location> locations =  locationRepository.findAll();
+        return locations.stream()
+                        .map(location -> new LocationResponse(location.getId(), location.getCountry(), location.getCity(), location.getLat(), location.getLng()))
+                        .toList();
     }
 
-//    private void insertMongoDocs(String collection, List<Document> docs) {
-    private void insertMongoDocs(String collection, List<String> json) {
-        try {
-            List<Document> docs = generateMongoDocs(json);
-            mongoTemplate.insert(docs, collection);
-        } catch (DataIntegrityViolationException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+//    @Autowired
+//    private MongoTemplate mongoTemplate;
+//
+//    private List<Document> generateMongoDocs(List<String> lines) {
+//        List<Document> docs = new ArrayList<>();
+//        for (String line : lines) {
+//            docs.add(Document.parse(line));
+//        }
+//        return docs;
+//    }
+//
+////    private void insertMongoDocs(String collection, List<Document> docs) {
+//    private void insertMongoDocs(String collection, List<String> json) {
+//        try {
+//            List<Document> docs = generateMongoDocs(json);
+//            mongoTemplate.insert(docs, collection);
+//        } catch (DataIntegrityViolationException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
 
 }
