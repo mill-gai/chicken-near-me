@@ -32,7 +32,6 @@ public class ImageService {
     private final S3Presigner s3Presigner;
     private final ImageRepository imageRepository;
 
-//    public void uploadImage(ImageRequest imageRequest, byte[] bytes, String fileName) {
     public String uploadImage(ImageRequest imageRequest, byte[] bytes, String fileName) {
         fileName = generateFileName(fileName);
         try {
