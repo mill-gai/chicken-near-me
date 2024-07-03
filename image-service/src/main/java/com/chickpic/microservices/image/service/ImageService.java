@@ -42,8 +42,8 @@ public class ImageService {
             Image image = Image.builder()
                     .title(imageRequest.title())
                     .description(imageRequest.description())
-                    .country(imageRequest.country())
-                    .city(imageRequest.city())
+                    .lat(imageRequest.lat())
+                    .lng(imageRequest.lng())
                     .fileName(fileName)
                     .build();
 
@@ -64,7 +64,7 @@ public class ImageService {
 //                            .toList();
 
         return images.stream()
-                .map(image -> new ImageResponse(image.getTitle(), image.getDescription(), image.getCountry(), image.getCity(), image.getFileName()))
+                .map(image -> new ImageResponse(image.getTitle(), image.getDescription(), image.getLat(), image.getLng(), image.getFileName()))
                 .toList();
     }
 

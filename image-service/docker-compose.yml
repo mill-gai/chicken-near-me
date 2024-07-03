@@ -1,9 +1,9 @@
 services:
   mongodb:
     image: mongo:7.0.5
-    container_name: chick-pic-mongodb
+    container_name: chick-pic-mongodb-img
     ports:
-      - "27017:27017"
+      - "27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
