@@ -10,7 +10,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { DropdownMenuComponent } from '../../components/dropdown-menu/dropdown-menu.component';
-import { locations } from '../../constants/locations';
 import { HeaderComponent } from '../../components/header/header.component';
 import { S3Service } from '../../services/s3/s3.service';
 import { NgIf } from '@angular/common';
@@ -19,7 +18,10 @@ import { MapComponent } from '../../components/map/map.component';
 import { GoogleMap } from '@angular/google-maps';
 import { ImageService } from '../../services/image/image.service';
 import { ImageInfo } from '../../model/image';
-import { Items, LocationItems } from '../../model/dropdown-item';
+import { Items } from '../../model/dropdown-item';
+import { LocationService } from '../../services/location/location.service';
+import { Location } from '../../model/location';
+import { AutocompleteComponent } from '../../components/autocomplete/autocomplete.component';
 
 @Component({
     selector: 'app-home-page',
@@ -34,6 +36,7 @@ import { Items, LocationItems } from '../../model/dropdown-item';
         NotificationComponent,
         MapComponent,
         GoogleMap,
+        AutocompleteComponent,
     ],
     templateUrl: './home-page.component.html',
     styleUrl: './home-page.component.css',
@@ -47,7 +50,8 @@ export class HomePageComponent implements OnInit {
     faImage = faImage;
     fileObj: File;
     imageUrl: string | ArrayBuffer | null = null;
-    locations = locations;
+    keyword = 'value';
+    locations: Location[];
     imageUrl1: string | null = null;
     @ViewChild(NotificationComponent)
     notiComponent: NotificationComponent;
@@ -64,15 +68,24 @@ export class HomePageComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private s3Service: S3Service,
-        private imageService: ImageService
+        private imageService: ImageService,
+        private locationService: LocationService
     ) {
         this.addImageForm = this.fb.group({
             name: ['', [Validators.required]],
             description: [''],
             country: ['', [Validators.required]],
             city: ['', [Validators.required]],
+            lat: [0, [Validators.required]],
+            lng: [0, [Validators.required]],
             image: [undefined, [Validators.required]],
         });
+        this.locationService
+            .getAllLocations()
+            .pipe()
+            .subscribe((response) => {
+                this.locations = response;
+            });
     }
 
     addImageHandler() {
@@ -106,10 +119,11 @@ export class HomePageComponent implements OnInit {
             description: this.addImageForm.get('description')?.value,
             country: this.addImageForm.get('country')?.value,
             city: this.addImageForm.get('city')?.value,
+            lat: this.addImageForm.get('lat')?.value,
+            lng: this.addImageForm.get('lng')?.value,
         };
 
         if (this.addImageForm.valid) {
-            // console.log("form is valid");
             this.imageService
                 .uploadImage(image, this.fileObj)
                 .subscribe((respond) => {
@@ -131,9 +145,11 @@ export class HomePageComponent implements OnInit {
     }
 
     onSelectLocation(selectedLocation: Items): void {
-        const location = selectedLocation as LocationItems;
+        const location = selectedLocation as Location;
         this.addImageForm.patchValue({ country: location.country });
         this.addImageForm.patchValue({ city: location.city });
+        this.addImageForm.patchValue({ lat: location.lat });
+        this.addImageForm.patchValue({ lng: location.lng });
     }
 
     get name() {
