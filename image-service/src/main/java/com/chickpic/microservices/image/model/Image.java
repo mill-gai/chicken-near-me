@@ -17,8 +17,8 @@ public class Image {
     private String id;
     private String title;
     private String description;
-//    private String country;
-//    private String city;
+    private String country;
+    private String city;
     private double lat;
     private double lng;
     private String fileName;
