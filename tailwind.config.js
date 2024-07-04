@@ -4,6 +4,7 @@ const { transform } = require('typescript');
 module.exports = {
     content: ["./src/**/*.{html,ts}"],
     theme: {
+      fontFamily: {mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']},
       extend: {
         animation: {
           'spin-slow': 'spin 3s linear infinite',
