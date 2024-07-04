@@ -22,7 +22,7 @@ public class LocationService {
     public List<LocationResponse> getAllLocations() {
         List<Location> locations =  locationRepository.findAll();
         return locations.stream()
-                        .map(location -> new LocationResponse(location.getId(), location.getCountry(), location.getCity(), location.getLat(), location.getLng()))
+                        .map(location -> new LocationResponse(location.getId(), location.getCountry(), location.getCity(), location.getLat(), location.getLng(), location.getCountry() + ", " + location.getCity()))
                         .toList();
     }
 
