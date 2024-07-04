@@ -46,7 +46,12 @@ export class MapComponent implements OnInit {
             let country = acc.find((c: any) => c.country == cur.country);
             if (!country) {
                 // country not in the list
-                country = { country: cur.country, cities: [] };
+                country = {
+                    country: cur.country,
+                    cities: [],
+                    lat: cur.lat,
+                    lng: cur.lng,
+                };
                 acc.push(country);
             }
             let city = country.cities.find((c: any) => c.city == cur.city);
