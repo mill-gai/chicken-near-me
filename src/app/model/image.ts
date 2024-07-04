@@ -3,6 +3,8 @@ export interface ImageInfo {
     description: string;
     country: string;
     city: string;
+    lat: number;
+    lng: number;
     fileName?: string;
     fileUrl?: string;
 }
@@ -20,4 +22,6 @@ export type ImageByLocation = {
         city: string;
         images: Image[];
     }[];
+    lat: number;
+    lng: number;
 };
