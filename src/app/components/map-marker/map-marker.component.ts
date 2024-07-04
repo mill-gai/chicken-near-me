@@ -5,7 +5,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Image } from '../../model/image';
 import { Position } from '../../model/position';
 import { ImageService } from '../../services/image/image.service';
-import { coord } from '../../constants/locations';
 
 @Component({
     selector: 'app-map-marker',
@@ -18,18 +17,18 @@ export class MapMarkerComponent implements OnInit {
     private readonly imageService = inject(ImageService);
     @Input() country: string;
     @Input() city: string;
+    @Input() position: Position;
     @Input() images: Image[];
-    position: Position;
     imgUrls: string[];
     showContent: boolean = false;
     faCircleXmark = faCircleXmark;
 
     ngOnInit(): void {
-        if (this.country in coord && this.city in coord[this.country]) {
-            this.position = coord[this.country][this.city];
-        } else {
-            this.position = { lat: 50, lng: -72 };
-        }
+        // if (this.country in coord && this.city in coord[this.country]) {
+        //     this.position = coord[this.country][this.city];
+        // } else {
+        //     this.position = { lat: 50, lng: -72 };
+        // }
         const fileNames: string[] = this.images.map((i) => i.fileName);
         this.getImageUrl(fileNames);
     }
@@ -48,5 +47,13 @@ export class MapMarkerComponent implements OnInit {
 
     onClickHandler() {
         this.showContent = !this.showContent;
+    }
+
+    onClickContainer(event: Event) {
+        const popup = document.getElementById('outsidePopup');
+        console.log(event.target);
+        if (event.target == popup) {
+            this.showContent = !this.showContent;
+        }
     }
 }

@@ -1,24 +1,29 @@
 <map-advanced-marker [position]="position" (mapClick)="onClickHandler()"></map-advanced-marker>
-@if(showContent){
-    <div class="overlay-container">
-        <div class="absolute mx-[10%] my-[10%] inset-x-0 p-4 inset-y-0 animate-fadeInUp bg-white rounded-lg text-center">
-            <button class="absolute right-[4%] top-4 hover:scale-90 focus:opacity-25 rounded-full bg-white" (click)="onClickHandler()">
-                <fa-icon [icon]="faCircleXmark" size="2x" style="color: rgb(62, 62, 62);"></fa-icon>
-            </button>
-            
-            <div class="h-[100%] overflow-y-scroll">
-                @for(image of images; track image.fileName) {
-                    <div class="flex-container m-4 border-2 p-3 pb-4 border-black bg-yellow-200">
-                        <div class="image-border">
-                            <img class="w-96" src="{{image.fileUrl}}" (error)="getImageUrl([image.fileName])">
+@if(this.showContent){
+    <div class="overlay-container" (click)="onClickContainer($event)">
+        <div id="outsidePopup" class="absolute flex justify-center w-full h-full items-center box-border animate-fadeInUp rounded-lg text-center">
+            <div class="m-2  rounded-lg bg-white">
+                <div class="w-80 h-96 m-2  p-2 overflow-y-scroll">
+                        <!-- <button class="absolute inset-y-0 right-0 hover:scale-90 focus:opacity-25 rounded-full bg-white" (click)="onClickHandler()">
+                            <fa-icon [icon]="faCircleXmark" size="2x" style="color: rgb(62, 62, 62);"></fa-icon>
+                        </button> -->
+                        <div class="p-3 pl-5 m-2 bg-white">
+                            @for(image of images; track image.fileName) {
+                                <!-- <div class="flex justify-center	items-center box-border w-3"> -->
+                                
+                                    <div class="image-border">
+                                        <img class="w-96" src="{{image.fileUrl}}" (error)="getImageUrl([image.fileName])">
+                                    </div>
+                                    <div class="m-5 text-center">
+                                        <h3>{{image.title}}</h3>
+                                        <p>{{image.description}}</p>
+                                    </div>
+                                <!-- </div>    -->
+                            }
                         </div>
-                        <div class="m-5 text-center">
-                            <h3>{{image.title}}</h3>
-                            <p>{{image.description}}</p>
-                        </div>
-                    </div>   
-                }
+                </div> 
             </div>
+            
         </div>
     </div>
 }

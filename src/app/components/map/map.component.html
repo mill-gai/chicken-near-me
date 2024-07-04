@@ -2,7 +2,12 @@
 <google-map [options]="options" width="100%">
     @for (imgCountry of images; track imgCountry) {
         @for (imgCity of imgCountry.cities; track imgCity) {
-            <app-map-marker [country]="imgCountry.country" [city]="imgCity.city" [images]="imgCity.images"></app-map-marker>
+            <app-map-marker 
+                [country]="imgCountry.country" 
+                [city]="imgCity.city" 
+                [position]="{lat: imgCountry.lat, lng: imgCountry.lng}" 
+                [images]="imgCity.images">
+            </app-map-marker>
         }
     }
     <!-- <map-advanced-marker [position]="position" (mapClick)="onClickHandler()"></map-advanced-marker> -->
