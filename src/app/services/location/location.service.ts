@@ -11,7 +11,7 @@ export class LocationService {
 
     getAllLocations(): Observable<Location[]> {
         return this.httpClient.get<Array<Location>>(
-            'http://localhost:8081/api/location'
+            'http://localhost:9000/api/location'
         );
     }
 }

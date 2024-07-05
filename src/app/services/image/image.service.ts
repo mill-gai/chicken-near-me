@@ -24,7 +24,7 @@ export class ImageService {
         formData.append('file', file);
         // const body = { file: file, imageRequest: image};
         return this.httpClient.post<string>(
-            'http://localhost:8080/api/image',
+            'http://localhost:9000/api/image',
             formData,
             httpOptions
         );
@@ -32,13 +32,13 @@ export class ImageService {
 
     getAllImages(): Observable<ImageInfo[]> {
         return this.httpClient.get<Array<ImageInfo>>(
-            'http://localhost:8080/api/image/getAllImages'
+            'http://localhost:9000/api/image/getAllImages'
         );
     }
 
     getImageUrls(fileNames: string[]): Observable<string[]> {
         return this.httpClient.get<Array<string>>(
-            'http://localhost:8080/api/image/getImageUrls',
+            'http://localhost:9000/api/image/getImageUrls',
             { params: { fileNames: fileNames } }
         );
     }
