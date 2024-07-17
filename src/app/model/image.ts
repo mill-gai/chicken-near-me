@@ -21,7 +21,7 @@ export type ImageByLocation = {
     cities: {
         city: string;
         images: Image[];
+        lat: number;
+        lng: number;
     }[];
-    lat: number;
-    lng: number;
 };
