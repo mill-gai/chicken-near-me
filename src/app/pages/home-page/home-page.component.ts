@@ -101,10 +101,8 @@ export class HomePageComponent implements OnInit {
     onUploadImage(event: Event): void {
         const input = event.target as HTMLInputElement;
         if (input.files) {
-            console.log(input.files);
             var fileReader = new FileReader();
             this.fileObj = input.files[0];
-            console.log(this.fileObj);
             fileReader.readAsDataURL(this.fileObj);
             fileReader.onload = () => {
                 this.imageUrl = fileReader.result;
